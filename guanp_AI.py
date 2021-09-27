@@ -56,22 +56,29 @@ class Rules:
 		"""true iff exists next one """
 		return target < A and (target+1) in target_list 
 
+	def basic_ladders(self, target_list) -> List[List[int, ...], ...]:
+		"""
+		"""
+		ladders = []
+		for c in target_list:
+			card = c
+			pseudo_ladders = []
+			while self.has_next(card, target_list):
+				pseudo_ladders.append(card)
+				card += 1
+			pseudo_ladders.append(card)
+			ladders.append(pseudo_ladders)
+		return ladders
+
 	def get_ladders(self) -> List[List[int, ...], ...]:
 		"""
 		"""
 		ladders = []
-		pseudo_ladders = []
-		for c in self.my_hand_adjusted:
-			card = c
-			while self.has_next(card, self.my_hand_adjusted):
-				pseudo_ladders.append(card)
-				card += 1
-			pseudo_ladders.append(card)
-			if pseudo_ladders.len() >= 5:
-				ladders.append(pseudo_ladders)
-				for i in pseudo_ladders:
-					self.update_my_hand(i)
-			pseudo_ladders = []
+		for ladder in self.basic_ladders(self.my_hand_adjusted):
+			if ladder.len() >= 5:
+				ladders.append(ladder)
+				for i in ladder:
+					self.my_hand_adjusted.remove(i)
 		return ladders
 
 	def find_doubles(self) -> List[int, ...]:
@@ -88,22 +95,14 @@ class Rules:
 		"""
 		"""
 		double_ladders = []
-		double_ladder = []
 		doubles = self.find_doubles()
-		for card in doubles:
-			while self.has_next(card, doubles):
-				double_ladder.append(card)
-				card += 1
-			double_ladder.append(card)
-			double_ladders.append(2*double_ladder)
-			for i in double_ladder:
-				doubles.remove(i)
-			double_ladder = []
+		for ladder in self.basic_ladders(doubles):
+			double_ladders.append(2*ladder)
 		return double_ladders
 
 	def find_triples(self) -> List[int, ...]:
 		triples = []
-		# check for triples
+		# check for triples\ A
 		for i in (REGULAR + [THREE]):
 			if self.my_hand_adjusted.count(i) == 3:
 				triples.append(i)
@@ -114,17 +113,9 @@ class Rules:
 		"""
 		"""
 		triple_ladders = []
-		triple_ladder = []
 		triples = self.find_triples()
-		for card in triples:
-			while self.has_next(card, triples):
-				triple_ladder.append(card)
-				card += 1
-			triple_ladder.append(card)
-			triple_ladders.append(3*triple_ladder)
-			for i in triple_ladder:
-				triples.remove(i)
-			triple_ladder = []
+		for ladder in self.basic_ladders(triples):
+			triple_ladders.append(3*ladder)
 		return triple_ladders
 
 
