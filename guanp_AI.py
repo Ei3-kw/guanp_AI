@@ -113,19 +113,19 @@ class Rules:
 	def get_triple_ladders(self) -> List[List[int, ...], ...]:
 		"""
 		"""
-		double_ladders = []
-		double_ladder = []
-		doubles = self.find_triples()
-		for card in self.find_doubles():
-			while self.has_next(card, doubles):
-				double_ladder.append(card)
+		triple_ladders = []
+		triple_ladder = []
+		triples = self.find_triples()
+		for card in triples:
+			while self.has_next(card, triples):
+				triple_ladder.append(card)
 				card += 1
-			double_ladder.append(card)
-			double_ladders.append(2*double_ladder)
-			for i in double_ladder:
-				doubles.remove(i)
-			double_ladder = []
-		return double_ladders
+			triple_ladder.append(card)
+			triple_ladders.append(3*triple_ladder)
+			for i in triple_ladder:
+				triples.remove(i)
+			triple_ladder = []
+		return triple_ladders
 
 
 		
