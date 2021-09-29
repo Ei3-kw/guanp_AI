@@ -165,25 +165,73 @@ class Analysis:
 		self.rules_6 = rules
 		self.start_first = won or (not played and rules.has_spade_three())
 
-	def append_singles(self, singles, bombs, triples, triple_doubles):
+	def append_singles(self, singles, bombs, triples, 
+		triple_doubles) -> List[List[int], int]:
 		j = 0
 		for i in triple_doubles:
 			j += i.len()/2
-		# calculate the amount can't append
+		# calculate the amount can append
 		x = bombs.len() + triples.len() - j
 		y = 0
 		num_singles = max(0, singles.len()-x)
 		while y < num_singles:
 			singles.pop(y)
 			y += 1
-		return singles
+		return [singles, singles.len()]
 
 	def single_1(self) -> List[List[int], int]:
-		bombs = 
+		bombs = self.rules_1.get_bombs()
+		triple_ladders = self.rules_1.get_triple_ladders()
+		double_ladders = self.rules_1.get_double_ladders()
+		ladders = self.rules_1.get_ladders()
+		triple_doubles = self.rules_1.triple_double()
 		singles = self.rules_1.my_hand_adjusted.sort()
-		return [singles.pop]
+		return self.append_singles(singles, bombs, triples, triple_doubles)
 
-	def abs_single(self) -> List[Optional(int)]:
+	def single_2(self) -> List[List[int], int]:
+		bombs = self.rules_2.get_bombs()
+		triple_ladders = self.rules_2.get_triple_ladders()
+		ladders = self.rules_2.get_ladders()
+		double_ladders = self.rules_2.get_double_ladders()
+		triple_doubles = self.rules_2.triple_double()
+		singles = self.rules_2.my_hand_adjusted.sort()
+		return self.append_singles(singles, bombs, triples, triple_doubles)
 
+	def single_3(self) -> List[List[int], int]:
+		bombs = self.rules_3.get_bombs()
+		double_ladders = self.rules_3.get_double_ladders()
+		triple_ladders = self.rules_3.get_triple_ladders()
+		ladders = self.rules_3.get_ladders()
+		triple_doubles = self.rules_3.triple_double()
+		singles = self.rules_3.my_hand_adjusted.sort()
+		return self.append_singles(singles, bombs, triples, triple_doubles)
+
+	def single_4(self) -> List[List[int], int]:
+		bombs = self.rules_4.get_bombs()
+		double_ladders = self.rules_4.get_double_ladders()
+		ladders = self.rules_4.get_ladders()
+		triple_ladders = self.rules_4.get_triple_ladders()
+		triple_doubles = self.rules_4.triple_double()
+		singles = self.rules_4.my_hand_adjusted.sort()
+		return self.append_singles(singles, bombs, triples, triple_doubles)
+
+	def single_5(self) -> List[List[int], int]:
+		bombs = self.rules_5.get_bombs()
+		ladders = self.rules_5.get_ladders()
+		triple_ladders = self.rules_5.get_triple_ladders()
+		double_ladders = self.rules_5.get_double_ladders()
+		triple_doubles = self.rules_5.triple_double()
+		singles = self.rules_5.my_hand_adjusted.sort()
+		return self.append_singles(singles, bombs, triples, triple_doubles)
+
+	def single_6(self) -> List[List[int], int]:
+		bombs = self.rules_6.get_bombs()
+		ladders = self.rules_6.get_ladders()
+		double_ladders = self.rules_6.get_double_ladders()
+		triple_ladders = self.rules_6.get_triple_ladders()
+		triple_doubles = self.rules_6.triple_double()
+		singles = self.rules_6.my_hand_adjusted.sort()
+		return self.append_singles(singles, bombs, triples, triple_doubles)
+		 
 
 		
